@@ -15,7 +15,7 @@ function domLoadFunctions(){
 function processUrl(e) {
   // console.log(e.target)
   const form = document.querySelector('#form')
-  form.innerHTML += 
+  form.innerHTML +=
                 `<div class="form-group" style=>
                   <label>Url:</label>
                   <input type="text" class="form-control" id="url" placeholder="Enter your Url">
@@ -29,12 +29,10 @@ function fetchUrl(e) {
     e.preventDefault()
     username = document.querySelector("#username").value
     userInput = document.querySelector("#url").value
-
-    
+    console.log(username, userInput)
 
     fetch(`${baseURL}/new`,  {
       method: 'POST',
-      mode: "no-cors",
       body: JSON.stringify({username: username, user_input: userInput}),
       headers:{
       'Content-Type': 'application/json'
@@ -44,5 +42,3 @@ function fetchUrl(e) {
     .then(json => startGame(json))
   }
 }
-
-
