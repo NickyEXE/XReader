@@ -3,10 +3,6 @@ document.addEventListener("DOMContentLoaded", domLoadFunctions)
 baseURL = `http://localhost:3000`
 
 function domLoadFunctions(){
-<<<<<<< HEAD
-  startGame()
-=======
-  // startGame()
   const urlButt = document.querySelector('#url-butt')
   const form = document.querySelector('#form')
 
@@ -44,5 +40,4 @@ function fetchUrl(e) {
     .then(res => res.json())
     .then(json => startGame(json))
   }
->>>>>>> backend
 }
