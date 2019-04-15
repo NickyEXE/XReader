@@ -8,9 +8,14 @@ class Essay < ApplicationRecord
   end
 
   def pull_p_tags
-    @doc = Nokogiri::XML(File.read(self.url))
-    byebug
+    @doc = Nokogiri::HTML(self.get_content)
     @doc.xpath("//p")
+  end
+
+  def parse_in_human
+    self.pull_p_tags.map do |p_tag|
+      p_tag.text
+    end.flatten
   end
 
 
