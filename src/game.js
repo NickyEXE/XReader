@@ -13,8 +13,8 @@ function startGame(){
   let wordIterator = 0
   renderer()
   document.addEventListener("keydown", keydownHandler)
-  setInterval(wordsLogic, 10);
-  setInterval(createWords, 1000)
+  const gameLogicInterval = setInterval(wordsLogic, 10);
+  const wordInterval = setInterval(createWords, 1000)
 
   function createWords(){
     words.push({word: warAndPeace[wordIterator], x: canvas.width-100, y: Math.floor(Math.random() * (canvas.height-16)) + 1, width: 0, height: 16})
@@ -41,7 +41,10 @@ function startGame(){
       alert("Game Over!")
       avatar.x = 99999
       avatar.y = 99999
+      clearInterval(gameLogicInterval)
+      clearInterval(wordInterval)
         }
+
     if (word.x < -40){words.shift()
       score = score + 100
       console.log(score)
