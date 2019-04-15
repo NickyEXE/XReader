@@ -13,11 +13,7 @@ function startGame(essay){
   let wordIterator = 0
   renderer()
   document.addEventListener("keydown", keydownHandler)
-<<<<<<< HEAD
-  const gameLogicInterval = setInterval(wordsLogic, 10);
-=======
   const gameInterval = setInterval(wordsLogic, 10);
->>>>>>> backend
   const wordInterval = setInterval(createWords, 1000)
 
   function createWords(){
@@ -37,7 +33,6 @@ function startGame(essay){
     const isRightSideOfWordGreaterThanZero = word.x + word.width > 0
     const isAnyPartOfWordLessThanAvatarWidth = !!(((word.x < avatar.width) || (word.x + word.width <avatar.width)))
     const isXColliding = !!(isRightSideOfWordGreaterThanZero && isAnyPartOfWordLessThanAvatarWidth)
-    console.log(isRightSideOfWordGreaterThanZero)
     const isWordOnLineWithAvatarTop = (avatar.y < word.y + 3) && (avatar.y > (word.y - word.height -3))
     const isWordOnLineWithAvatarBottom = (avatar.y+avatar.height < word.y + 3) && (avatar.y+avatar.height > (word.y - word.height -3))
     const isWordOnLineWithAvatarMiddle = (avatar.y+(avatar.height/2) < word.y + 3) && (avatar.y+(avatar.height/2) > (word.y - word.height -3))
@@ -45,17 +40,12 @@ function startGame(essay){
       alert("Game Over!")
       avatar.x = 99999
       avatar.y = 99999
-<<<<<<< HEAD
-      clearInterval(gameLogicInterval)
-=======
       clearInterval(gameInterval)
->>>>>>> backend
       clearInterval(wordInterval)
-        }
+    }
 
     if (word.x < -40){words.shift()
       score = score + 100
-      console.log(score)
     }
   }
 
