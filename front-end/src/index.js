@@ -4,16 +4,20 @@ document.addEventListener("DOMContentLoaded", domLoadFunctions)
 function domLoadFunctions(){
   const canvas = document.getElementById("myCanvas")
   const ctx = canvas.getContext('2d');
+  let score = 0
   createTheBox()
   const avatar = {x: 0, y: Math.round(canvas.height/2), height: Math.round(canvas.height/15), width: Math.round(canvas.height/15)}
   const words = []
+  const warAndPeace = `“Well, Prince, so Genoa and Lucca are now just family estates of the Buonapartes. But I warn you, if you don’t tell me that this means war, if you still try to defend the infamies and horrors perpetrated by that Antichrist—I really believe he is Antichrist—I will have nothing more to do with you and you are no longer my friend, no longer my ‘faithful slave,’ as you call yourself! But how do you do? I see I have frightened you—sit down and tell me all the news.” It was in July, 1805, and the speaker was the well-known Anna Pávlovna Schérer, maid of honor and favorite of the Empress Márya Fëdorovna. With these words she greeted Prince Vasíli Kurágin, a man of high rank and importance, who was the first to arrive at her reception. Anna Pávlovna had had a cough for some days. She was, as she said, suffering from la grippe; grippe being then a new word in St. Petersburg, used only by the elite.`.split(" ")
+  let wordIterator = 0
   renderer()
   document.addEventListener("keydown", keydownHandler)
   setInterval(wordsLogic, 10);
   setInterval(createWords, 1000)
 
   function createWords(){
-    words.push({word: "Squirrel", x: canvas.width-100, y: Math.floor(Math.random() * (canvas.height-16)) + 1, width: 0, height: 16})
+    words.push({word: warAndPeace[wordIterator], x: canvas.width-100, y: Math.floor(Math.random() * (canvas.height-16)) + 1, width: 0, height: 16})
+    wordIterator ++
   }
 
   function wordsLogic(){
@@ -34,8 +38,13 @@ function domLoadFunctions(){
     const isWordOnLineWithAvatarMiddle = (avatar.y+(avatar.height/2) < word.y + 3) && (avatar.y+(avatar.height/2) > (word.y - word.height -3))
     if (((isWordOnLineWithAvatarBottom||isWordOnLineWithAvatarMiddle)||isWordOnLineWithAvatarTop)&&isXColliding){
       alert("Game Over!")
+      avatar.x = 99999
+      avatar.y = 99999
         }
-    if (word.x < -40){words.shift()}
+    if (word.x < -40){words.shift()
+      score = score + 100
+      console.log(score)
+    }
   }
 
   function renderer(objs){
@@ -58,6 +67,8 @@ function domLoadFunctions(){
       canvas.height = window.innerHeight//document.height is obsolete
       canvasW = canvas.width;
       canvasH = window.innerHeight;
+      ctx.font = "18px Arial Black";
+      ctx.fillText(`Score: ${score}`, canvas.width/2, 18);
       return canvas
   }
 
