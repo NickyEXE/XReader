@@ -29,6 +29,10 @@ function startGame(essay, username, url){
     static changeLasers(){
     this.lasersRendered.forEach(laser => laser.behavior())}
 
+    static laserSound(){
+      document.getElementById("laser").cloneNode(true).play();
+    }
+
     static renderLasers(){
       this.lasersRendered.forEach(laser => laser.render())
     }
@@ -92,6 +96,7 @@ function startGame(essay, username, url){
     Laser.lasersRendered.forEach(laser => {
       if ((word.x <= laser.x && laser.x<=word.x+word.width)&&(word.y-word.height<=laser.y && laser.y <= word.y))
       {words.splice(words.findIndex(x => x === word), 1);
+        Laser.lasersRendered.splice(Laser.lasersRendered.findIndex(x=> x=== laser), 1);
       score = score + 500}})
     //
     if (word.x < -40){words.shift()
@@ -157,6 +162,7 @@ function startGame(essay, username, url){
     if (Laser.laserSet){
     Laser.laserSet = false
     new Laser(avatar.x, (avatar.y +(avatar.height/2)))
+    Laser.laserSound()
   }}
 
 }
