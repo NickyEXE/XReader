@@ -18,5 +18,11 @@ class Essay < ApplicationRecord
     end.flatten
   end
 
+  def high_score
+    high_score = self.scores.max_by do |score|
+      score.score
+    end
+    high_score ? high_score : nil
+  end
 
 end
