@@ -3,6 +3,7 @@ function startGame(essay, username, url){
   const canvasPlaceholder = document.getElementById("canvasPlaceholder")
   canvasPlaceholder.innerHTML = `<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000; background: url('./assets/background.png')">
           <div id="dodger" style="bottom: 100px; left: 100px;"></div>
+          <img id="ship" width="1" height="1" src="./assets/ship.PNG" alt="Ship">
       </canvas>`
   const canvas = document.getElementById("myCanvas")
   const ctx = canvas.getContext('2d');
@@ -18,7 +19,7 @@ function startGame(essay, username, url){
       // move the laser
       this.x = this.x + this.constructor.speed
       // delete the laser if it's off-screen
-      if (this.x > canvas.height+this.constructor.speed){
+      if (this.x > canvas.width+this.constructor.speed){
         this.constructor.lasersRendered.shift()
       }
     }
@@ -155,7 +156,7 @@ function startGame(essay, username, url){
   }
 
   function printTheAvatar(avatar){
-    ctx.fillRect(avatar.x, avatar.y, avatar.width, avatar.height);
+    ctx.drawImage(document.getElementById("ship"),avatar.x, avatar.y, avatar.width, avatar.height);
   }
 
 
