@@ -1,4 +1,4 @@
-function startGame(essay){
+function startGame(essay, username, url){
   const canvasPlaceholder = document.getElementById("canvasPlaceholder")
   canvasPlaceholder.innerHTML = `<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000; background: url('https://ak2.picdn.net/shutterstock/videos/16719202/thumb/1.jpg')">
           <div id="dodger" style="bottom: 100px; left: 100px;"></div>
@@ -9,8 +9,7 @@ function startGame(essay){
   createTheBox()
   const avatar = {x: 0, y: Math.round(canvas.height/2), height: Math.round(canvas.height/15), width: Math.round(canvas.height/15)}
   const words = []
-  const reducer = (accumulator, currentValue) => accumulator + " " + currentValue;
-  const essayArray = essay.response.reduce(reducer).split(" ")
+  const essayArray = essay.response.reduce((accumulator, currentValue) => accumulator + " " + currentValue).split(" ")
   console.log(essayArray)
   let wordIterator = 0
   renderer()
@@ -44,6 +43,7 @@ function startGame(essay){
       avatar.y = 99999
       clearInterval(gameInterval)
       clearInterval(wordInterval)
+      adapter.postScore(username, score, url).then(response => console.log(response))
     }
 
     if (word.x < -40){words.shift()
@@ -87,7 +87,6 @@ function startGame(essay){
       renderer(avatar)
     }
   }
-
 
   function printTheAvatar(avatar){
     ctx.fillRect(avatar.x, avatar.y, avatar.width, avatar.height);
