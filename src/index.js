@@ -4,11 +4,13 @@ function domLoadFunctions(){
   const urlButt = document.querySelector('#url-butt')
   const form = document.querySelector('#form')
   const container = document.querySelector('.container')
+  const username = document.querySelector("#username")
 
   urlButt.addEventListener('click', processUrl)
   form.addEventListener('click', fetchUrl)
   adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))
   container.addEventListener('click', startPreviousGame)
+  username.addEventListener('input', showPreviousGames)
 
 }
 
@@ -22,28 +24,29 @@ function processUrl(e) {
                 </div>
                 <button id="urlBuffForm" type="submit" class="btn btn-primary">Play Secret Laser</button>
                 `
+  e.target.style.display = "none"
 }
 
 function fetchUrl(e) {
   if (e.target.id === "urlBuffForm") {
     e.preventDefault()
-    username = document.querySelector("#username").value
-    url = document.querySelector("#url").value
-    body = {username: username, user_input: url}
+    const username = document.querySelector("#username").value
+    const url = document.querySelector("#url").value
+    const body = {username: username, user_input: url}
     adapter.getUrl(body)
     .then(essay => startGame(essay.response, username, url))
   }
 }
 
 function addPreviousGameToDom(previousGames) {
-  row = document.querySelector('.row')
+  const row = document.querySelector('.row')
   previousGames.forEach(game => {
     row.innerHTML += previousGameHtml(game)
   })
 }
 
 function previousGameHtml(game){
-  shortenedContent = game.content.slice(0,40)
+  const shortenedContent = game.content.slice(0,40)
   return `<div class="col-sm-3">
             <div class="card bg-light mb-3">
               <div class="card-block">
@@ -59,10 +62,26 @@ function previousGameHtml(game){
 
 function startPreviousGame(e) {
   if (e.target.type === "button") {
-    url = e.target.previousElementSibling.innerText
-    username = document.querySelector('#username').value
+    const url = e.target.previousElementSibling.innerText
+    const username = document.querySelector('#username').value
     adapter.getPreviousEssay(e.target.dataset.urlid).then(essay => {
       startGame(essay.content, username, url)
     })
+  }
+}
+
+function showPreviousGames(e) {
+  const row = document.querySelector('.row')
+  const playButton = document.querySelector('#urlBuffForm')
+  if (e.target.value.length !== 0) {
+    row.style.display = ''
+    if (playButton) {
+      playButton.disabled = false
+    }
+  } else {
+    row.style.display = 'None'
+    if (playButton) {
+      playButton.disabled = true
+    }
   }
 }
