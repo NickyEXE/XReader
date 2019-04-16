@@ -49,7 +49,7 @@ function startGame(essay, username, url){
   createTheBox()
   const avatar = {x: 0, y: Math.round(canvas.height/2), height: Math.round(canvas.height/15), width: Math.round(canvas.height/15)}
   const words = []
-  const essayArray = essay.response.split(" ")
+  const essayArray = essay.replace(/^\s+|\s+$/g, "").split(" ")
   let wordIterator = 0
   renderer()
   // game controllers
