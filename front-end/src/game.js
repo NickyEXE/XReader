@@ -9,7 +9,9 @@ function startGame(essay){
   createTheBox()
   const avatar = {x: 0, y: Math.round(canvas.height/2), height: Math.round(canvas.height/15), width: Math.round(canvas.height/15)}
   const words = []
-  const warAndPeace = essay.response[0].split(" ")
+  const reducer = (accumulator, currentValue) => accumulator + " " + currentValue;
+  const essayArray = essay.response.reduce(reducer).split(" ")
+  console.log(essayArray)
   let wordIterator = 0
   renderer()
   document.addEventListener("keydown", keydownHandler)
@@ -17,7 +19,7 @@ function startGame(essay){
   const wordInterval = setInterval(createWords, 1000)
 
   function createWords(){
-    words.push({word: warAndPeace[wordIterator], x: canvas.width-100, y: Math.floor(Math.random() * (canvas.height-16)) + 1, width: 0, height: 16})
+    words.push({word: essayArray[wordIterator], x: canvas.width-100, y: Math.floor(Math.random() * (canvas.height-16)) + 1, width: 0, height: 16})
     wordIterator ++
   }
 
