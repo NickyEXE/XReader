@@ -8,6 +8,7 @@ function domLoadFunctions(){
 
   urlButt.addEventListener('click', processUrl)
   form.addEventListener('click', fetchUrl)
+  fetchPreviousGames()
 
 }
 
@@ -41,4 +42,31 @@ function fetchUrl(e) {
     .then(res => res.json())
     .then(json => startGame(json))
   }
+}
+
+function fetchPreviousGames() {
+  fetch(`${baseURL}/essays`)
+  .then(res => res.json())
+  .then(games => addPreviousGameToDom(games))
+}
+
+function addPreviousGameToDom(previousGames) {
+  row = document.querySelector('.row')
+  previousGames.forEach(game => {
+    row.innerHTML += previousGameHtml(game)
+  })
+}
+
+function previousGameHtml(game){
+  return `<div class="col-sm-3">
+            <div class="card bg-light mb-3">
+              <div class="card-block">
+                  <h4 class="card-title">${game.title}</h4>
+                  <p class="card-text">Placeholder for Preview.</p>
+                  <p class="card-text">${game.url}</p>
+                  <button type="button" class="btn btn-primary">Play Title</button>
+                  <p class="card-text"><small class="text-muted">High Score: ${game.high_score}</small></p>
+              </div>
+            </div>
+          </div>`
 }
