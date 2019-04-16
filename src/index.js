@@ -13,8 +13,9 @@ function domLoadFunctions(){
 
 function processUrl(e) {
   // console.log(e.target)
-  const form = document.querySelector('#form')
-  form.innerHTML +=
+  e.preventDefault()
+  const newUrlDiv = document.getElementById('newurl')
+  newUrlDiv.innerHTML =
                 `<div class="form-group" style=>
                   <label>Url:</label>
                   <input type="text" class="form-control" id="url" placeholder="Enter your Url">
