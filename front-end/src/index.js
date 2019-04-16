@@ -72,9 +72,16 @@ function startPreviousGame(e) {
 
 function showPreviousGames(e) {
   const row = document.querySelector('.row')
+  const playButton = document.querySelector('#urlBuffForm')
   if (e.target.value.length !== 0) {
     row.style.display = ''
+    if (playButton) {
+      playButton.disabled = false
+    }
   } else {
     row.style.display = 'None'
+    if (playButton) {
+      playButton.disabled = true
+    }
   }
 }
