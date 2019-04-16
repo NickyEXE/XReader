@@ -21,6 +21,8 @@ function processUrl(e) {
                 `<div class="form-group" style=>
                   <label>Url:</label>
                   <input type="text" class="form-control" id="url" placeholder="Enter your Url">
+                  <label>Title:</label>
+                  <input type="text" class="form-control" id="title" placeholder="Enter your Title">
                 </div>
                 <button id="urlBuffForm" type="submit" class="btn btn-primary">Play Secret Laser</button>
                 `
@@ -32,7 +34,8 @@ function fetchUrl(e) {
     e.preventDefault()
     const username = document.querySelector("#username").value
     const url = document.querySelector("#url").value
-    const body = {username: username, user_input: url}
+    const title = document.querySelector("#title").value
+    const body = {username: username, user_input: url, title: title}
     adapter.getUrl(body)
     .then(essay => startGame(essay.response, username, url))
   }
@@ -53,7 +56,7 @@ function previousGameHtml(game){
                   <h4 id="title" class="card-title">${game.title}</h4>
                   <p class="card-text">Content: ${shortenedContent}</p>
                   <p id="url" class="card-text">${game.url}</p>
-                  <button data-urlId=${game.id} type="button" class="btn btn-primary">Play Title</button>
+                  <button data-urlId=${game.id} type="button" class="btn btn-primary">Play ${game.title}</button>
                   <p class="card-text"><small class="text-muted">High Score: ${game.high_score.score} by ${game.high_score_user.username}</small></p>
               </div>
             </div>
