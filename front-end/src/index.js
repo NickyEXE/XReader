@@ -36,7 +36,6 @@ function fetchUrl(e) {
 }
 
 function addPreviousGameToDom(previousGames) {
-  console.log(previousGames)
   row = document.querySelector('.row')
   previousGames.forEach(game => {
     row.innerHTML += previousGameHtml(game)
