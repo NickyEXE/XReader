@@ -86,17 +86,19 @@ function startGame(essay, username, url){
     const isWordOnLineWithAvatarBottom = (avatar.y+avatar.height < word.y + 3) && (avatar.y+avatar.height > (word.y - word.height -3))
     const isWordOnLineWithAvatarMiddle = (avatar.y+(avatar.height/2) < word.y + 3) && (avatar.y+(avatar.height/2) > (word.y - word.height -3))
     if (((isWordOnLineWithAvatarBottom||isWordOnLineWithAvatarMiddle)||isWordOnLineWithAvatarTop)&&isXColliding){
-      alert("Game Over!")
+      document.getElementById("shipsplode").play();
       avatar.x = 99999
       avatar.y = 99999
       clearInterval(gameInterval)
       clearInterval(wordInterval)
+      alert("Game Over!")
       adapter.postScore(username, score, url).then(response => console.log(response))
     }
     Laser.lasersRendered.forEach(laser => {
       if ((word.x <= laser.x && laser.x<=word.x+word.width)&&(word.y-word.height<=laser.y && laser.y <= word.y))
       {words.splice(words.findIndex(x => x === word), 1);
         Laser.lasersRendered.splice(Laser.lasersRendered.findIndex(x=> x=== laser), 1);
+        document.getElementById("wordsplode").cloneNode(true).play();
       score = score + 500}})
     //
     if (word.x < -40){words.shift()
@@ -117,6 +119,9 @@ function startGame(essay, username, url){
   // renders individual words
   function renderWord(word){
     ctx.font = "16px Arial";
+    ctx.fillStyle = 'white';
+    ctx.fillRect(word.x, word.y-16, ctx.measureText(word.word).width, 18)
+    ctx.fillStyle = 'black';
     ctx.fillText(word.word, word.x, word.y);
     word.width = Math.ceil(ctx.measureText(word.word).width)
   }
