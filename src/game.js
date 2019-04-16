@@ -1,7 +1,7 @@
 function startGame(essay, username, url){
   // start game constants
   const canvasPlaceholder = document.getElementById("canvasPlaceholder")
-  canvasPlaceholder.innerHTML = `<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000; background: url('https://ak2.picdn.net/shutterstock/videos/16719202/thumb/1.jpg')">
+  canvasPlaceholder.innerHTML = `<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000; background: url('./assets/background.png')">
           <div id="dodger" style="bottom: 100px; left: 100px;"></div>
       </canvas>`
   const canvas = document.getElementById("myCanvas")
@@ -24,6 +24,7 @@ function startGame(essay, username, url){
     }
 
     render(){
+      ctx.fillStyle = 'yellow';
       ctx.fillRect(this.x, this.y, Laser.speed, 1)
     }
     static changeLasers(){
@@ -120,7 +121,7 @@ function startGame(essay, username, url){
   function renderWord(word){
     ctx.font = "16px Arial";
     ctx.fillStyle = 'white';
-    ctx.fillRect(word.x, word.y-16, ctx.measureText(word.word).width, 18)
+    ctx.fillRect(word.x-2, word.y-16, ctx.measureText(word.word).width+4, 20)
     ctx.fillStyle = 'black';
     ctx.fillText(word.word, word.x, word.y);
     word.width = Math.ceil(ctx.measureText(word.word).width)
