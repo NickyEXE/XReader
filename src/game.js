@@ -1,4 +1,5 @@
 function startGame(essay, username, url){
+  debugger
   const canvasPlaceholder = document.getElementById("canvasPlaceholder")
   canvasPlaceholder.innerHTML = `<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000; background: url('https://ak2.picdn.net/shutterstock/videos/16719202/thumb/1.jpg')">
           <div id="dodger" style="bottom: 100px; left: 100px;"></div>
