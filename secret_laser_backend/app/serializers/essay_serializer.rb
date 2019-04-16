@@ -1,3 +1,3 @@
 class EssaySerializer < ActiveModel::Serializer
-  attributes :title, :url, :high_score
+  attributes :title, :url, :high_score, :high_score_user
 end

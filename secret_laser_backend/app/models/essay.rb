@@ -28,4 +28,8 @@ class Essay < ApplicationRecord
     end
     high_score ? high_score : nil
   end
+
+  def high_score_user
+    self.high_score.user
+  end
 end

@@ -3,10 +3,12 @@ document.addEventListener("DOMContentLoaded", domLoadFunctions)
 function domLoadFunctions(){
   const urlButt = document.querySelector('#url-butt')
   const form = document.querySelector('#form')
+  const container = document.querySelector('.container')
 
   urlButt.addEventListener('click', processUrl)
   form.addEventListener('click', fetchUrl)
   fetchPreviousGames()
+  container.addEventListener('click', startPreviousGame)
 
 }
 
@@ -58,12 +60,22 @@ function previousGameHtml(game){
   return `<div class="col-sm-3">
             <div class="card bg-light mb-3">
               <div class="card-block">
-                  <h4 class="card-title">${game.title}</h4>
+                  <h4 id="title" class="card-title">${game.title}</h4>
                   <p class="card-text">Placeholder for Preview.</p>
-                  <p class="card-text">${game.url}</p>
+                  <p id="url" class="card-text">${game.url}</p>
                   <button type="button" class="btn btn-primary">Play Title</button>
-                  <p class="card-text"><small class="text-muted">High Score: ${game.high_score}</small></p>
+                  <p class="card-text"><small class="text-muted">High Score: ${game.high_score.score} by ${game.high_score_user.username}</small></p>
               </div>
             </div>
           </div>`
+}
+
+function startPreviousGame(e) {
+  if (e.target.type === "button") {
+    // url = e.target.previousElementSibling.innerText
+    // username = document.querySelector('#username')
+    // essay = ["Fix", "This"]
+    // startGame(essay, username, url)
+    console.log('start game')
+  }
 }
