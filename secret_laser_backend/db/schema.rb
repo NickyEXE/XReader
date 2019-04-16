@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_15_201225) do
+ActiveRecord::Schema.define(version: 2019_04_16_153422) do
 
   create_table "essays", force: :cascade do |t|
     t.string "title"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2019_04_15_201225) do
   create_table "scores", force: :cascade do |t|
     t.integer "user_id"
     t.integer "essay_id"
-    t.integer "score"
+    t.integer "score", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
