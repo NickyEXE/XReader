@@ -2,6 +2,12 @@ class Essay < ApplicationRecord
     has_many :scores
     has_many :users, through: :scores
 
+
+  def initialize(url)
+    super(url)
+    self.content = self.parse_in_human.inject{|sum, n| sum + " " + n}
+  end
+
   def get_content
     uri = URI.parse("#{self.url}")
     response = Net::HTTP.get_response(uri).body

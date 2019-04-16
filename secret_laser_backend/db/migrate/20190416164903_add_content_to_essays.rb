@@ -1,0 +1,5 @@
+class AddContentToEssays < ActiveRecord::Migration[5.2]
+  def change
+    add_column :essays, :content, :string
+  end
+end
