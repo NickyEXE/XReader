@@ -11,4 +11,9 @@ class EssaysController < ApplicationController
       @response = new_essay.content
       render :json => {"response": @response}
     end
+    
+    def show
+      @essay = Essay.find(params[:id])
+      render json: @essay
+    end
 end
