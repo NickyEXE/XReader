@@ -4,7 +4,7 @@ headers = {
 }
 
 const adapter = {
-  postScore: (username,score) => {
+  postScore: (username,score,url) => {
     return fetch(`${baseURL}/scores/create`, {
       method: 'POST',
       headers: headers,
