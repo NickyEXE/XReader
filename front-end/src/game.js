@@ -55,7 +55,6 @@ function startGame(essay, username, url){
 
   // called to add a new word whenever the wordInterval is hit
   function createWords(){
-    console.log("lasers rendered", Laser.lasersRendered)
     words.push({word: essayArray[wordIterator], x: canvas.width-100, y: Math.floor(Math.random() * (canvas.height-16)) + 1, width: 0, height: 16})
     wordIterator ++
   }
