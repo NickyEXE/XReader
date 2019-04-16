@@ -1,6 +1,4 @@
-
 document.addEventListener("DOMContentLoaded", domLoadFunctions)
-baseURL = `http://localhost:3000`
 
 function domLoadFunctions(){
   const urlButt = document.querySelector('#url-butt')
@@ -28,17 +26,16 @@ function fetchUrl(e) {
   if (e.target.id === "urlBuffForm") {
     e.preventDefault()
     username = document.querySelector("#username").value
-    userInput = document.querySelector("#url").value
-    console.log(username, userInput)
+    url = document.querySelector("#url").value
 
     fetch(`${baseURL}/new`,  {
       method: 'POST',
-      body: JSON.stringify({username: username, user_input: userInput}),
+      body: JSON.stringify({username: username, user_input: url}),
       headers:{
       'Content-Type': 'application/json'
       }
     })
     .then(res => res.json())
-    .then(json => startGame(json))
+    .then(essay => startGame(essay, username, url))
   }
 }
