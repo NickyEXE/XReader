@@ -8,6 +8,7 @@ function domLoadFunctions(){
 
   urlButt.addEventListener('click', processUrl)
   form.addEventListener('click', fetchUrl)
+  adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))
   container.addEventListener('click', startPreviousGame)
   username.addEventListener('input', showPreviousGames)
 
@@ -70,10 +71,10 @@ function startPreviousGame(e) {
 }
 
 function showPreviousGames(e) {
+  const row = document.querySelector('.row')
   if (e.target.value.length !== 0) {
-    adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))
+    row.style.display = ''
   } else {
-    const row = document.querySelector('.row')
-    row.innerHTML = ''
+    row.style.display = 'None'
   }
 }
