@@ -19,10 +19,13 @@ class Essay < ApplicationRecord
   end
 
   def high_score
-    high_score = self.scores.max_by do |score|
-      score.score
+    if self.scores.length >1
+      high_score = self.scores.max_by do |score|
+        score.score
+      end
+    elsif self.scores == 1
+      high_score = self.score
     end
     high_score ? high_score : nil
   end
-
 end
