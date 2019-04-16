@@ -54,10 +54,55 @@ function startGame(essay, username, url){
   let wordIterator = 0
   renderer()
   // game controllers
+  const keyPress ={up: {pressed: false, pressedFunction: upFunction}, down: {pressed: false, pressedFunction: downFunction}, space: {pressed: false, pressedFunction: shootLaser}}
   document.addEventListener("keydown", keydownHandler)
-  document.addEventListener("keyup", resetLaser)
+  document.addEventListener("keyup", keyupHandler)
   const gameInterval = setInterval(gameIntervalFunctions, 10);
   const wordInterval = setInterval(createWords, 1000)
+
+  function callPressedFunctions(){
+    Object.keys(keyPress).forEach(button => callButtonFunction(button))
+  }
+
+  function callButtonFunction(button){
+    if (keyPress[button].pressed){keyPress[button].pressedFunction()}
+  }
+
+  function downFunction(){
+    avatar.y = avatar.y + 2
+  }
+
+  function upFunction(){
+    avatar.y = avatar.y - 2
+  }
+  function keydownHandler(e){
+    e.preventDefault()
+    if (e.key === "ArrowDown") {keyPress["down"]["pressed"]=true;}
+    if (e.key === "ArrowUp") {
+      keyPress["up"]["pressed"]=true;
+    }
+    if (e.key === " "){
+      keyPress["space"]["pressed"]=true;
+    }
+    callPressedFunctions()
+    renderer()
+  }
+  function keyupHandler(e){
+    e.preventDefault
+    if (e.key === " "){
+      Laser.laserSet = true
+      keyPress["space"]["pressed"]=false
+    }
+    if (e.key === "ArrowUp"){
+      keyPress["up"]["pressed"] = false
+    }
+    if (e.key === "ArrowDown"){
+      keyPress["down"]["pressed"] = false
+    }
+    callPressedFunctions()
+    renderer()
+  }
+
 
   // called to add a new word whenever the wordInterval is hit
   function createWords(){
@@ -68,6 +113,7 @@ function startGame(essay, username, url){
   function gameIntervalFunctions(){
     wordsLogic()
     Laser.changeLasers()
+    callPressedFunctions()
     renderer()
   }
 
@@ -140,31 +186,10 @@ function startGame(essay, username, url){
       return canvas
   }
 
-  function keydownHandler(e){
-    e.preventDefault()
-    if (e.key === "ArrowDown") {
-      avatar.y = avatar.y + 5
-      renderer(avatar)
-    }
-    if (e.key === "ArrowUp") {
-      avatar.y = avatar.y - 5
-      renderer(avatar)
-    }
-    if (e.key === " "){
-      shootLaser()
-    }
-  }
-
   function printTheAvatar(avatar){
     ctx.drawImage(document.getElementById("ship"),avatar.x, avatar.y, avatar.width, avatar.height);
   }
 
-
-  function resetLaser(e){
-    if (e.key === " "){
-      Laser.laserSet = true
-    }
-  }
   function shootLaser(){
     if (Laser.laserSet){
     Laser.laserSet = false
