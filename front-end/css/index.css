@@ -66,3 +66,41 @@
 .modal .close_modal:hover {
   opacity: 0.9;
 }
+.wrapper {
+  margin: 20px;
+}
+.flexItemContainer {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  margin: 10px;
+  box-sizing: border-box;
+}
+
+
+@flex-height: 760px;
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: stretch;
+    height: @flex-height;
+}
+
+.flex-item:nth-child(1) {
+  order: 0;
+  flex: 3 1 auto;
+  align-self: auto;
+  .flexItemContainer;
+  margin-right: 0;
+}
+
+.flex-item:nth-child(2) {
+  order: 0;
+  flex: 1 1 auto;
+  align-self: auto;
+  background-color: #FFF176;
+  .flexItemContainer;
+  margin-left: 0;
+}

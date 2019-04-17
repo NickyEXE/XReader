@@ -11,6 +11,7 @@ function domLoadFunctions(){
   adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))
   container.addEventListener('click', startPreviousGame)
   username.addEventListener('input', showPreviousGames)
+  adapter.getUserHighScores().then(userHighScores => populateUserHighScores(userHighScores))
 
 }
 
@@ -21,7 +22,12 @@ function processUrl(e) {
                 `<div class="form-group" style=>
                   <label>Url:</label>
                   <input type="text" class="form-control" id="url" placeholder="Enter your Url">
+                  <div class="title" style="display: none">
+                    <label >Title:</label>
+                    <input type="text" class="form-control" id="title" placeholder="Enter a Title">
+                  </div>
                 </div>
+                <button id="titleButton" type="submit" class="btn btn-info">Enter Title</button>
                 <button id="urlBuffForm" type="submit" class="btn btn-primary">Play Secret Laser</button>
                 `
   e.target.style.display = "none"
@@ -32,9 +38,27 @@ function fetchUrl(e) {
     e.preventDefault()
     const username = document.querySelector("#username").value
     const url = document.querySelector("#url").value
-    const body = {username: username, user_input: url}
+    const title = document.querySelector("#title").value
+    const body = {username: username, user_input: url, title: title}
     adapter.getUrl(body)
     .then(essay => startGame(essay.response, username, url))
+  }
+    if (e.target.id === "titleButton") {
+    e.preventDefault()
+    const url = document.querySelector("#url")
+    adapter.getTitle(url.value).then(data => {
+      if (data === null) {
+        titleDiv = e.target.parentElement.querySelector(".title")
+        titleDiv.style.display = ""
+        e.target.style.display = "none"
+      } else {
+        titleDiv = e.target.parentElement.querySelector(".title")
+        titleDiv.style.display = ""
+        titleDiv.children[1].value = data.title
+        titleDiv.children[1].disabled = true
+        e.target.disabled = true
+      }
+    })
   }
 }
 
@@ -47,13 +71,13 @@ function addPreviousGameToDom(previousGames) {
 
 function previousGameHtml(game){
   const shortenedContent = game.content.slice(0,40)
-  return `<div class="col-sm-3">
+  return `<div class="col-sm-4">
             <div class="card bg-light mb-3">
               <div class="card-block">
                   <h4 id="title" class="card-title">${game.title}</h4>
                   <p class="card-text">Content: ${shortenedContent}</p>
                   <p id="url" class="card-text">${game.url}</p>
-                  <button data-urlId=${game.id} type="button" class="btn btn-primary">Play Title</button>
+                  <button data-urlId=${game.id} type="button" class="btn btn-primary">Play ${game.title}</button>
                   <p class="card-text"><small class="text-muted">High Score: ${game.high_score.score} by ${game.high_score_user.username}</small></p>
               </div>
             </div>
@@ -84,4 +108,18 @@ function showPreviousGames(e) {
       playButton.disabled = true
     }
   }
+}
+
+function populateUserHighScores(userHighScores) {
+  userHighScore = document.querySelector('#user-high-score')
+  userHighScores.forEach((highScore, index) => {
+    userHighScore.innerHTML += `<tr>
+                                  <th scope="row">${index + 1}</th>
+                                    <td>${highScore.username}</td>
+                                    <td>${highScore.title}</td>
+                                    <td>${highScore.score}</td>
+                                </tr>`
+  })
+
+
 }
