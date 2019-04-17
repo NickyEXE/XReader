@@ -16,4 +16,9 @@ class EssaysController < ApplicationController
       @essay = Essay.find(params[:id])
       render json: @essay
     end
+
+    def title
+      @essay = Essay.find_by(url: params["url"])
+      render json: @essay
+    end
 end
