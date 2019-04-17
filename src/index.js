@@ -11,6 +11,7 @@ function domLoadFunctions(){
   adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))
   container.addEventListener('click', startPreviousGame)
   username.addEventListener('input', showPreviousGames)
+  adapter.getUserHighScores().then(userHighScores => populateUserHighScores(userHighScores))
 
 }
 
@@ -50,7 +51,7 @@ function addPreviousGameToDom(previousGames) {
 
 function previousGameHtml(game){
   const shortenedContent = game.content.slice(0,40)
-  return `<div class="col-sm-3">
+  return `<div class="col-sm-4">
             <div class="card bg-light mb-3">
               <div class="card-block">
                   <h4 id="title" class="card-title">${game.title}</h4>
@@ -87,4 +88,18 @@ function showPreviousGames(e) {
       playButton.disabled = true
     }
   }
+}
+
+function populateUserHighScores(userHighScores) {
+  userHighScore = document.querySelector('#user-high-score')
+  userHighScores.forEach((highScore, index) => {
+    userHighScore.innerHTML += `<tr>
+                                  <th scope="row">${index + 1}</th>
+                                    <td>${highScore.username}</td>
+                                    <td>${highScore.title}</td>
+                                    <td>${highScore.score}</td>
+                                </tr>`
+  })
+
+
 }

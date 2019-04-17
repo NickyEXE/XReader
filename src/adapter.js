@@ -25,5 +25,8 @@ const adapter = {
       headers: headers
     })
     .then(res => res.json())
+  },
+  getUserHighScores: () => {
+    return fetch(`${baseURL}/scores/highscore`).then(res => res.json())
   }
 }
