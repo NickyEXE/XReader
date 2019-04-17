@@ -7,7 +7,7 @@ class EssaysController < ApplicationController
 
     def new
       url = params["user_input"]
-      new_essay = User.find_or_create_by(username: params["username"]).essays.find_or_create_by(url: url, title: params["title"])
+      new_essay = Essay.find_or_create_by(url: url, title: params["title"])
       @response = new_essay.content
       render :json => {"response": @response}
     end

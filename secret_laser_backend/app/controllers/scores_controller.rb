@@ -8,4 +8,9 @@ class ScoresController < ApplicationController
     render :json => @user_scores_on_game
   end
 
+  def highscore
+    @highscores = Score.highscore
+    render :json => @highscores
+  end
+
 end
