@@ -2,12 +2,6 @@ class Essay < ApplicationRecord
     has_many :scores
     has_many :users, through: :scores
 
-
-  def initialize(url)
-    super(url)
-    self.content = self.parse_in_human.inject{|sum, n| sum + " " + n}
-  end
-
   def get_content
     uri = URI.parse("#{self.url}")
     response = Net::HTTP.get_response(uri).body
@@ -25,17 +19,10 @@ class Essay < ApplicationRecord
   end
 
   def high_score
-    if self.scores.length >1
-      high_score = self.scores.max_by do |score|
-        score.score
-      end
-    elsif self.scores.length == 1
-      high_score = self.scores[0]
+    high_score = self.scores.max_by do |score|
+      score.score
     end
     high_score ? high_score : nil
   end
 
-  def high_score_user
-    self.high_score.user
-  end
 end

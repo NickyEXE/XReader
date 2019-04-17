@@ -1,19 +1,14 @@
 class EssaysController < ApplicationController
 
-    def index
+    def index 
       @essays = Essay.all
       render json: @essays
     end
 
     def new
       url = params["user_input"]
-      new_essay = Essay.find_or_create_by(url: url, title: params["title"])
-      @response = new_essay.content
+      new_essay = User.find_or_create_by(username: params["username"]).essays.create(url: url)
+      @response = new_essay.parse_in_human
       render :json => {"response": @response}
-    end
-    
-    def show
-      @essay = Essay.find(params[:id])
-      render json: @essay
     end
 end
