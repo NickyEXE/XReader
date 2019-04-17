@@ -22,9 +22,12 @@ function processUrl(e) {
                 `<div class="form-group" style=>
                   <label>Url:</label>
                   <input type="text" class="form-control" id="url" placeholder="Enter your Url">
-                  <label>Title:</label>
-                  <input type="text" class="form-control" id="title" placeholder="Enter your Title">
+                  <div class="title" style="display: none">
+                    <label >Title:</label>
+                    <input type="text" class="form-control" id="title" placeholder="Enter a Title">
+                  </div>
                 </div>
+                <button id="titleButton" type="submit" class="btn btn-info">Enter Title</button>
                 <button id="urlBuffForm" type="submit" class="btn btn-primary">Play Secret Laser</button>
                 `
   e.target.style.display = "none"
@@ -39,6 +42,23 @@ function fetchUrl(e) {
     const body = {username: username, user_input: url, title: title}
     adapter.getUrl(body)
     .then(essay => startGame(essay.response, username, url))
+  }
+    if (e.target.id === "titleButton") {
+    e.preventDefault()
+    const url = document.querySelector("#url")
+    adapter.getTitle(url.value).then(data => {
+      if (data === null) {
+        titleDiv = e.target.parentElement.querySelector(".title")
+        titleDiv.style.display = ""
+        e.target.style.display = "none"
+      } else {
+        titleDiv = e.target.parentElement.querySelector(".title")
+        titleDiv.style.display = ""
+        titleDiv.children[1].value = data.title
+        titleDiv.children[1].disabled = true
+        e.target.disabled = true
+      }
+    })
   }
 }
 
