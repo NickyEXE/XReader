@@ -22,7 +22,9 @@ class Laser {
   this.lasersRendered.forEach(laser => laser.behavior())}
 
   static laserSound(){
-    document.getElementById("laser").cloneNode(true).play();
+    const laserSound = document.getElementById("laser").cloneNode(true)
+    laserSound.volume = .5
+    laserSound.play();
   }
 
   static renderLasers(){
