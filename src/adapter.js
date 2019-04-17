@@ -25,5 +25,16 @@ const adapter = {
       headers: headers
     })
     .then(res => res.json())
+  },
+  getUserHighScores: () => {
+    return fetch(`${baseURL}/scores/highscore`).then(res => res.json())
+  }, 
+  getTitle: (url) => {
+    return fetch(`${baseURL}/essays/title`, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify({url: url})
+    })
+    .then(res => res.json())
   }
 }
