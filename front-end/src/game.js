@@ -7,44 +7,6 @@ function startGame(essay, username, url){
       </canvas>`
   const canvas = document.getElementById("myCanvas")
   const ctx = canvas.getContext('2d');
-  // laser stuff
-  class Laser {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.constructor.lasersRendered.push(this)
-    }
-
-    behavior(){
-      // move the laser
-      this.x = this.x + this.constructor.speed
-      // delete the laser if it's off-screen
-      if (this.x > canvas.width+this.constructor.speed){
-        this.constructor.lasersRendered.shift()
-      }
-    }
-
-    render(){
-      ctx.fillStyle = 'yellow';
-      ctx.fillRect(this.x, this.y, Laser.speed, 1)
-    }
-    static changeLasers(){
-    this.lasersRendered.forEach(laser => laser.behavior())}
-
-    static laserSound(){
-      document.getElementById("laser").cloneNode(true).play();
-    }
-
-    static renderLasers(){
-      this.lasersRendered.forEach(laser => laser.render())
-    }
-  }
-  Laser.laserSet = true
-  Laser.speed = 5
-  Laser.lasersReady = 3
-  Laser.maxLasers = 3
-  Laser.lasersRendered = []
-  Laser.laserRefresh = 200
   // initial render and game stats
   let score = 0
   createTheBox()
@@ -52,9 +14,12 @@ function startGame(essay, username, url){
   const words = []
   const essayArray = essay.replace(/^\s+|\s+$/g, "").split(" ")
   let wordIterator = 0
+  Laser.initializeLaserVariables(canvas, avatar, ctx)
+
+
   renderer()
   // game controllers
-  const keyPress ={up: {pressed: false, pressedFunction: upFunction}, down: {pressed: false, pressedFunction: downFunction}, space: {pressed: false, pressedFunction: shootLaser}}
+  const keyPress ={up: {pressed: false, pressedFunction: upFunction}, down: {pressed: false, pressedFunction: downFunction}, space: {pressed: false, pressedFunction: Laser.shootLaser}}
   document.addEventListener("keydown", keydownHandler)
   document.addEventListener("keyup", keyupHandler)
   const gameInterval = setInterval(gameIntervalFunctions, 10);
@@ -161,6 +126,7 @@ function startGame(essay, username, url){
     if (avatar.y < 0){avatar.y = 0}
     printTheAvatar(avatar)
     words.forEach(word => renderWord(word))
+    Laser.avatar = avatar
     Laser.renderLasers()
   }
 
@@ -190,11 +156,5 @@ function startGame(essay, username, url){
     ctx.drawImage(document.getElementById("ship"),avatar.x, avatar.y, avatar.width, avatar.height);
   }
 
-  function shootLaser(){
-    if (Laser.laserSet){
-    Laser.laserSet = false
-    new Laser(avatar.x, (avatar.y +(avatar.height/2)))
-    Laser.laserSound()
-  }}
 
 }
