@@ -10,7 +10,7 @@ function startGame(essay, username, url){
             <div class="modal_content">
               <!-- Dynamic Section -->
               <h2>You crashed!</h2>
-              <iframe src="https://giphy.com/embed/2ik2ANNpA4Xug" width="480" height="268" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/2ik2ANNpA4Xug">via GIPHY</a></p>
+              <iframe src="https://giphy.com/embed/2ik2ANNpA4Xug" width="480" height="268" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/2ik2ANNpA4Xug"></a></p>
               <h5>Reading over.</h5>
               <!-- End of Dynamic Section -->
               <center><button type="button" class="btn btn-primary center">Reset score and continue reading?</button></center>
