@@ -9,11 +9,13 @@ function startGame(essay, username, url){
   const ctx = canvas.getContext('2d');
   // initial render and game stats
   let score = 0
+  const words = []
+  let currentSentence = ""
+  speak(currentSentence)
+  let wordIterator = 0
   createTheBox()
   const avatar = {x: 0, y: Math.round(canvas.height/2), height: Math.round(canvas.height/15), width: Math.round(canvas.height/15)}
-  const words = []
   const essayArray = essay.replace(/^\s+|\s+$/g, "").split(" ")
-  let wordIterator = 0
   Laser.initializeLaserVariables(canvas, avatar, ctx)
 
 
@@ -23,7 +25,7 @@ function startGame(essay, username, url){
   document.addEventListener("keydown", keydownHandler)
   document.addEventListener("keyup", keyupHandler)
   const gameInterval = setInterval(gameIntervalFunctions, 10);
-  const wordInterval = setInterval(createWords, 1000)
+  const wordInterval = setInterval(createWords, 500)
 
   function callPressedFunctions(){
     Object.keys(keyPress).forEach(button => callButtonFunction(button))
@@ -71,9 +73,34 @@ function startGame(essay, username, url){
 
   // called to add a new word whenever the wordInterval is hit
   function createWords(){
-    words.push({word: essayArray[wordIterator], x: canvas.width-100, y: Math.floor(Math.random() * (canvas.height-16)) + 1, width: 0, height: 16})
+    const word = essayArray[wordIterator]
+    words.push({word: word, x: canvas.width-100, y: Math.floor(Math.random() * (canvas.height-16)) + 1, width: 0, height: 16})
     wordIterator ++
+    currentSentence += " " + word
+    if (checkPunctuation(word)){speak(currentSentence);
+    currentSentence = ""}
   }
+
+// say a message
+function speak(text, callback) {
+    var u = new SpeechSynthesisUtterance();
+    const voices = speechSynthesis.getVoices();
+    u.text = text;
+    u.lang = 'en-US';
+    u.voice = voices.filter(voice => voice.name == "Daniel")[0]
+    u.rate = 1
+    u.onend = function () {
+        if (callback) {
+            callback();
+        }
+    }; 
+    u.onerror = function (e) {
+        if (callback) {
+            callback(e);
+        }
+    };
+    speechSynthesis.speak(u);
+}
 
   function gameIntervalFunctions(){
     wordsLogic()
@@ -87,9 +114,12 @@ function startGame(essay, username, url){
     words.forEach(word => wordLogic(word))
   }
 
+  function checkPunctuation (string){
+	   return !!string.substr(-1).match(/\.|\?|\!/gm)}
+
   // moves the words and checks for collisions, deletes word and adds 100 points if it's far behind
   function wordLogic(word){
-    word.x = word.x - 2
+    word.x = word.x - 4
     // first condition: has the right side of the word hit zero? If so, you shouldn't get killed by it
     // second condition: is any part of the word between 0 and the avatar width
     const isRightSideOfWordGreaterThanZero = word.x + word.width > 0
