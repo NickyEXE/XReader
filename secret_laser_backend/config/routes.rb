@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   get '/scores', to: 'scores#index'
   post '/scores/create', to: 'scores#create'
   get '/essays/:id', to: 'essays#show'
+  get '/scores/highscore', to: 'scores#highscore'
 end
