@@ -4,12 +4,24 @@ function startGame(essay, username, url){
   canvasPlaceholder.innerHTML = `<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000; background: url('./assets/background.png')">
           <div id="dodger" style="bottom: 100px; left: 100px;"></div>
           <img id="ship" width="1" height="1" src="./assets/ship.PNG" alt="Ship">
-      </canvas>`
+      </canvas>
+      <div class="modal" style="display: none" id= "gameEndModal">
+            <div class="overlay"></div>
+            <div class="modal_content">
+              <!-- Dynamic Section -->
+              <h2>You crashed!</h2>
+              <iframe src="https://giphy.com/embed/2ik2ANNpA4Xug" width="480" height="268" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/2ik2ANNpA4Xug">via GIPHY</a></p>
+              <h5>Reading over.</h5>
+              <!-- End of Dynamic Section -->
+              <center><button type="button" class="btn btn-primary center">Reset score and continue reading?</button></center>
+            </div>
+          </div>
+      `
   const canvas = document.getElementById("myCanvas")
   const ctx = canvas.getContext('2d');
   // initial render and game stats
   let score = 0
-  const words = []
+  let words = []
   let currentSentence = ""
   speak(currentSentence)
   let wordIterator = 0
@@ -24,8 +36,8 @@ function startGame(essay, username, url){
   const keyPress ={up: {pressed: false, pressedFunction: upFunction}, down: {pressed: false, pressedFunction: downFunction}, space: {pressed: false, pressedFunction: Laser.shootLaser}}
   document.addEventListener("keydown", keydownHandler)
   document.addEventListener("keyup", keyupHandler)
-  const gameInterval = setInterval(gameIntervalFunctions, 10);
-  const wordInterval = setInterval(createWords, 500)
+  let gameInterval = setInterval(gameIntervalFunctions, 10);
+  let wordInterval = setInterval(createWords, 300)
 
   function callPressedFunctions(){
     Object.keys(keyPress).forEach(button => callButtonFunction(button))
@@ -89,6 +101,7 @@ function speak(text, callback) {
     u.lang = 'en-US';
     u.voice = voices.filter(voice => voice.name == "Daniel")[0]
     u.rate = 1
+    u.volume = 2
     u.onend = function () {
         if (callback) {
             callback();
@@ -119,7 +132,7 @@ function speak(text, callback) {
 
   // moves the words and checks for collisions, deletes word and adds 100 points if it's far behind
   function wordLogic(word){
-    word.x = word.x - 4
+    word.x = word.x - 5
     // first condition: has the right side of the word hit zero? If so, you shouldn't get killed by it
     // second condition: is any part of the word between 0 and the avatar width
     const isRightSideOfWordGreaterThanZero = word.x + word.width > 0
@@ -130,12 +143,11 @@ function speak(text, callback) {
     const isWordOnLineWithAvatarMiddle = (avatar.y+(avatar.height/2) < word.y + 3) && (avatar.y+(avatar.height/2) > (word.y - word.height -3))
     if (((isWordOnLineWithAvatarBottom||isWordOnLineWithAvatarMiddle)||isWordOnLineWithAvatarTop)&&isXColliding){
       document.getElementById("shipsplode").play();
-      avatar.x = 99999
-      avatar.y = 99999
       clearInterval(gameInterval)
       clearInterval(wordInterval)
-      alert("Game Over!")
+      document.getElementById("gameEndModal").style.display = "block"
       adapter.postScore(username, score, url).then(response => console.log(response))
+      document.getElementById("gameEndModal").querySelector(".btn").addEventListener('click', continueGame)
     }
     Laser.lasersRendered.forEach(laser => {
       if ((word.x <= laser.x && laser.x<=word.x+word.width)&&(word.y-word.height<=laser.y && laser.y <= word.y))
@@ -147,6 +159,15 @@ function speak(text, callback) {
     if (word.x < -40){words.shift()
       score = score + 100
     }
+  }
+
+  function continueGame(word){
+    console.log("Continuing Game")
+    score = 0
+    words = []
+    gameInterval = setInterval(gameIntervalFunctions, 10);
+    wordInterval = setInterval(createWords, 300)
+    document.getElementById("gameEndModal").style.display = "none"
   }
 
   // calls all the render functions
