@@ -76,9 +76,11 @@ function startGame(essay, username, url){
   function createWords(){
     if (wordIterator < essayArray.length - 1){
     const word = essayArray[wordIterator]
-    words.push({word: word, x: canvas.width-100, y: Math.floor(Math.random() * (canvas.height-16)) + 1, width: 0, height: 16})
+    words.forEach(word => word.yFlux = word.yFlux + Math.floor(Math.random() * (3)) -1)
+    words.push({word: word, x: canvas.width-100, y: Math.floor(Math.random() * (canvas.height-16)) + 1, width: 0, height: 16, yFlux: Math.floor(Math.random() * (3)) - 1})
     wordIterator ++
     currentSentence += " " + word
+
     if (checkPunctuation(word)){speak(currentSentence);
     currentSentence = ""}}
     else {
@@ -134,6 +136,7 @@ function speak(text, callback) {
   // moves the words and checks for collisions, deletes word and adds 100 points if it's far behind
   function wordLogic(word){
     word.x = word.x - 5
+    word.y = word.y + word.yFlux/2
     // first condition: has the right side of the word hit zero? If so, you shouldn't get killed by it
     // second condition: is any part of the word between 0 and the avatar width
     const isRightSideOfWordGreaterThanZero = word.x + word.width > 0
