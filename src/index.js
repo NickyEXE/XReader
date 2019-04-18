@@ -61,6 +61,7 @@ function formClickHandler(e) {
         titleDiv.children[1].disabled = true
         e.target.disabled = true
       }
+      e.target.nextElementSibling.style.display = ""
     })
   }
 }
