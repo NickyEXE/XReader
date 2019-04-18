@@ -6,6 +6,7 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <script src="./src/modals.js"></script>
     <script src="./src/adapter.js"></script>
     <script src="./src/laser.js"></script>
     <script src="./src/game.js"></script>
@@ -26,37 +27,6 @@
   <source src="./assets/shipsplode.wav" type="audio/wav">
   </audio>
 
-    <div id="welcomePage"></div>
-      <h1> Welcome to Secret Laser</h1>
-
-      <div class="flex-container">
-        <div class="flex-item">
-          <form id="form">
-            <div class="form-group" style=>
-              <label>Username:</label>
-              <input type="text" class="form-control" id="username" placeholder="Enter your Username">
-              <div id="newurl"></div>
-            </div>
-            <button id="url-butt" type="button" class="btn btn-info">Enter URL </button>
-          </form>
-        </div>
-        <div class="flex-item">
-            <h4> User High Scores</h4>
-            <table class="table table-striped table-dark">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Score</th>
-                  </tr>
-                </thead>
-                <tbody id="user-high-score">
-                </tbody>
-              </table>
-        </div>
-      </div>
-
     <div id="canvasPlaceholder">
 
     <br>
@@ -64,7 +34,15 @@
     <div class="container">
       <div class="row" style="display:none">
       </div>
+      </div>
     </div>
+
+        <div class="modal" style="display: block" id= "theModal">
+              <div class="overlay"></div>
+              <div class="modal_content" id = "modalContent">
+                <!-- Dynamic Section -->
+              </div>
+            </div>
 
   </body>
 </html>

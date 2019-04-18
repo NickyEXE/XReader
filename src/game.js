@@ -1,22 +1,11 @@
+const canvasPlaceholder = document.getElementById("canvasPlaceholder")
 function startGame(essay, username, url){
   // start game constants
   const canvasPlaceholder = document.getElementById("canvasPlaceholder")
   canvasPlaceholder.innerHTML = `<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000; background: url('./assets/background.png')">
-          <div id="dodger" style="bottom: 100px; left: 100px;"></div>
-          <img id="ship" width="1" height="1" src="./assets/ship.PNG" alt="Ship">
-      </canvas>
-      <div class="modal" style="display: none" id= "gameEndModal">
-            <div class="overlay"></div>
-            <div class="modal_content">
-              <!-- Dynamic Section -->
-              <h2>You crashed!</h2>
-              <iframe src="https://giphy.com/embed/2ik2ANNpA4Xug" width="480" height="268" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/2ik2ANNpA4Xug"></a></p>
-              <h5>Reading over.</h5>
-              <!-- End of Dynamic Section -->
-              <center><button type="button" class="btn btn-primary center">Reset score and continue reading?</button></center>
-            </div>
-          </div>
-      `
+              <div id="dodger" style="bottom: 100px; left: 100px;"></div>
+              <img id="ship" width="1" height="1" src="./assets/ship.PNG" alt="Ship">
+          </canvas>`
   const canvas = document.getElementById("myCanvas")
   const ctx = canvas.getContext('2d');
   // initial render and game stats
@@ -27,7 +16,7 @@ function startGame(essay, username, url){
   let wordIterator = 0
   createTheBox()
   const avatar = {x: 0, y: Math.round(canvas.height/2), height: Math.round(canvas.height/15), width: Math.round(canvas.height/15)}
-  const essayArray = essay.replace(/^\s+|\s+$/g, "").split(" ")
+  const essayArray = essay.replace(/^\s+|\s+$/g, "").split(" ").filter(word => word.length>0)
   Laser.initializeLaserVariables(canvas, avatar, ctx)
 
 
@@ -145,9 +134,12 @@ function speak(text, callback) {
       document.getElementById("shipsplode").play();
       clearInterval(gameInterval)
       clearInterval(wordInterval)
-      document.getElementById("gameEndModal").style.display = "block"
+      const theModal = document.getElementById("theModal")
+      theModal.style.display = "block"
       adapter.postScore(username, score, url).then(response => console.log(response))
-      document.getElementById("gameEndModal").querySelector(".btn").addEventListener('click', continueGame)
+      const modalContent = document.getElementById("modalContent")
+      modalContent.innerHTML = endGameModalHTML
+      theModal.querySelector(".btn").addEventListener('click', continueGame)
     }
     Laser.lasersRendered.forEach(laser => {
       if ((word.x <= laser.x && laser.x<=word.x+word.width)&&(word.y-word.height<=laser.y && laser.y <= word.y))
@@ -177,8 +169,16 @@ function speak(text, callback) {
     if (avatar.y < 0){avatar.y = 0}
     printTheAvatar(avatar)
     words.forEach(word => renderWord(word))
+    renderLaserBar()
     Laser.avatar = avatar
     Laser.renderLasers()
+  }
+
+  function renderLaserBar(){
+    ctx.fillStyle = "blue"
+    ctx.strokeStyle = 'white';
+    ctx.fillRect(20, canvas.height-100+(Laser.lasersRendered.length*10), 10, (12-(Laser.lasersRendered.length))*10);
+    ctx.stroke();
   }
 
   // renders individual words

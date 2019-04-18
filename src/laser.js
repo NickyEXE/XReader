@@ -34,19 +34,18 @@ class Laser {
   static initializeLaserVariables(canvas,avatar,ctx){
     this.laserSet = true
     this.speed = 5
-    this.lasersReady = 3
-    this.maxLasers = 3
+    this.maxLasers = 10
     this.lasersRendered = []
-    this.laserRefresh = 200
     this.canvas = canvas
     this.avatar = avatar
     this.ctx = ctx
   }
 
   static shootLaser(){
-    if (Laser.laserSet){
+    if (Laser.laserSet && Laser.lasersRendered.length <= Laser.maxLasers){
     Laser.laserSet = false
-    new Laser(Laser.avatar.x, (Laser.avatar.y +(Laser.avatar.height/2)))
+    new Laser(Laser.avatar.x+30, (Laser.avatar.y +(Laser.avatar.height/2-12)))
+    new Laser(Laser.avatar.x+30, (Laser.avatar.y +(Laser.avatar.height/2+12)))
     Laser.laserSound()
   }
   }
