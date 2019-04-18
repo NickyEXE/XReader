@@ -38,7 +38,7 @@ function formClickHandler(e) {
   if (e.target.id === "playGameButton") {
     e.preventDefault()
     const username = document.querySelector("#username").value
-    const url = document.querySelector("#url").innerText
+    const url = document.getElementById("url").value
     const title = document.querySelector("#title").innerText
     const body = {username: username, user_input: url, title: title}
     adapter.getUrl(body)
@@ -47,6 +47,7 @@ function formClickHandler(e) {
     if (e.target.id === "titleButton") {
     e.preventDefault()
     const url = document.querySelector("#url")
+    console.log("url", url)
     const newUrlDiv = document.getElementById('newurl')
     document.getElementById("playGameButton").style.display = ""
     adapter.getTitle(url.innerText).then(data => {
@@ -95,7 +96,7 @@ function previousGameHtml(game){
               <div class="card-block">
                   <h4 id="title" class="card-title">${game.title}</h4>
                   <p class="card-text">Content: ${shortenedContent}</p>
-                  <p id="url" class="card-text">${game.url}</p>
+                  <p data-url="${game.url}" class="card-text">${game.url}</p>
                   <button data-urlId=${game.id} type="button" class="btn btn-primary">Play ${game.title}</button>
                   <p class="card-text"><small class="text-muted">High Score: ${game.high_score.score} by ${game.high_score_user.username}</small></p>
               </div>
