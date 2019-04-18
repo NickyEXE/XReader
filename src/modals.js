@@ -14,8 +14,9 @@ const welcomePageHTML = `<div id="welcomePage"></div>
         <button id="previous-game-butt" type="button" class="btn btn-danger">Find a Previously Played Essay</button>
       </form>
     </div>
-    <div class="flex-item">
-        <h4> User High Scores</h4>
+      <div class="flex-item" style="background-color: black;margin-left: 30px;">
+        <center><h6 id="tableHead" style="padding-top: 5px";
+> User High Scores</h4></center>
         <table class="table table-striped table-dark">
             <thead>
               <tr>

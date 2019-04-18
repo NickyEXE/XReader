@@ -1,6 +1,10 @@
 document.addEventListener("DOMContentLoaded", domLoadFunctions)
 
 function domLoadFunctions(){
+  const modal = document.getElementById("theModal")
+  document.body.style.color = "white"
+  // document.getElementById("theModal").children[1].style.backgroundColor = "#2c2c2c"
+  document.getElementById("theModal").children[0].style.backgroundColor = "black"
   document.getElementById("modalContent").innerHTML = welcomePageHTML
   const urlButt = document.querySelector('#url-butt')
   const form = document.querySelector('#form')

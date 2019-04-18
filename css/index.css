@@ -32,7 +32,7 @@
   transform: translate(-50%, -50%);
   max-height: 90%;
   overflow: auto;
-  background: #fff;
+  background: #2c2c2c;
   box-sizing: border-box;
   padding: 20px;
   box-shadow: 0 1px 5px rgba(0,0,0,0.7);
@@ -40,11 +40,21 @@
   width: 90%; /* This just a default width */
 }
 
+.modal .modal_content > h1 {
+  font-size: 50px;
+  color: #FFF176
+}
+
+
 .modal .modal_content > h2 {
-  font-size: 28px;
+  font-size: 50px;
   font-weight: 200;
   margin: 20px 0 40px;
   text-align: center;
+}
+
+.modal .modal_content > h5 {
+  color: red
 }
 
 .modal .modal_content .buttons_wrapper {
