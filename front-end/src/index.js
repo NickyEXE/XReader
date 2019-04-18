@@ -28,7 +28,7 @@ function processUrl(e) {
                   </div>
                 </div>
                 <button id="titleButton" type="submit" class="btn btn-info">Enter Title</button>
-                <button id="urlBuffForm" type="submit" class="btn btn-primary">Play Secret Laser</button>
+                <button style="display: none" id="urlBuffForm" type="submit" class="btn btn-primary">Play Secret Laser</button>
                 `
   e.target.style.display = "none"
 }
@@ -58,6 +58,7 @@ function fetchUrl(e) {
         titleDiv.children[1].disabled = true
         e.target.disabled = true
       }
+      e.target.nextElementSibling.style.display = ""
     })
   }
 }
