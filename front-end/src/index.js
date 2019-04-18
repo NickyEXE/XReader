@@ -21,10 +21,10 @@ function processUrl(e) {
   newUrlDiv.innerHTML =
                 `<div class="form-group" style=>
                   <br>
-                  <label>What's the URL of the article you want to read?</label>
+                  <label id="urlInputTag">What's the URL of the article you want to read?</label>
                   <input type="text" class="form-control" id="url" placeholder="Enter your Url">
                   <div class="title" style="display: none">
-                    <label >Title:</label>
+                    <label id= "titleInputTag">Title:</label>
                     <input type="text" class="form-control" id="title" placeholder="Enter a Title">
                   </div>
                 </div>
@@ -77,7 +77,7 @@ function formClickHandler(e) {
       container.addEventListener('click', startPreviousGame)
       adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))}
         else {
-          document.getElementById("usernamePrompter").innerText = "Username -- ENTER ME!!!"
+          document.getElementById("usernamePrompter").innerText = "GAMER ALIAS -- ENTER ME!!!"
           document.getElementById("usernamePrompter").style.color = "yellow"
         }
       }
@@ -87,14 +87,23 @@ function checkGame(essay, username, url, title){
   console.log("username", username)
   console.log("url", url)
   console.log("title", title)
+  if (!username){document.getElementById("usernamePrompter").style.color = "yellow";
+  document.getElementById("usernamePrompter").innerText = "Please enter a username!"
+  }
+  else{
+  if (!title){document.getElementById("titleInputTag").style.color = "yellow";
+  document.getElementById("titleInputTag").innerText = "Please enter a title!"
+  }
+  else{
   if (essay.response){
   document.getElementById("theModal").style.display = "none"
   startGame(essay.response, username, url)}
   else {sayInvalidEssay(username, url, title)}
-}
+}}}
 
 function sayInvalidEssay(username, url, title){
-  console.log("thats an invalid essay!")
+  document.getElementById("urlInputTag").style.color = "yellow"
+  document.getElementById("urlInputTag").innerText = "That essay didn't work! Please try a new one."
 }
 
 

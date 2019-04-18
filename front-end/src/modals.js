@@ -6,7 +6,7 @@ const welcomePageHTML = `<div id="welcomePage"></div>
     <div class="flex-item">
       <form id="form">
         <div class="form-group" style=>
-          <label id= "usernamePrompter">Username:</label>
+          <label id= "usernamePrompter">Gamer Alias:</label>
           <input type="text" class="form-control" id="username" placeholder="Enter your Username">
           <div id="newurl"></div>
         </div>
@@ -45,3 +45,10 @@ const welcomePageHTML = `<div id="welcomePage"></div>
         </div>
         </div>
       </div>`
+
+  const winGameModal = `<center><h2>You finished reading!</h2>
+  <iframe src="https://giphy.com/embed/RZnTaU1aKBjJm" width="480" height="409" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/news-oitnb-RZnTaU1aKBjJm"></a></p>
+  <h5>Reading over.</h5>
+  <p id="score"></p>
+  <!-- End of Dynamic Section -->
+  <button type="button" class="btn btn-primary center">Return to Menu?</button></center>`
