@@ -3,19 +3,14 @@ document.addEventListener("DOMContentLoaded", domLoadFunctions)
 function domLoadFunctions(){
   const modal = document.getElementById("theModal")
   document.body.style.color = "white"
-  // document.getElementById("theModal").children[1].style.backgroundColor = "#2c2c2c"
   document.getElementById("theModal").children[0].style.backgroundColor = "black"
   document.getElementById("modalContent").innerHTML = welcomePageHTML
   const urlButt = document.querySelector('#url-butt')
   const form = document.querySelector('#form')
   const container = document.querySelector('.container')
   const username = document.querySelector("#username")
-
   urlButt.addEventListener('click', processUrl)
   form.addEventListener('click', formClickHandler)
-  // adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))
-  // container.addEventListener('click', startPreviousGame)
-  // username.addEventListener('input', showPreviousGames)
   adapter.getUserHighScores().then(userHighScores => populateUserHighScores(userHighScores))
 
 }
@@ -42,12 +37,14 @@ function processUrl(e) {
 function formClickHandler(e) {
   if (e.target.id === "playGameButton") {
     e.preventDefault()
-    const username = document.querySelector("#username").value
-    const url = document.getElementById("url").value
-    const title = document.querySelector("#title").innerText
-    const body = {username: username, user_input: url, title: title}
+    const body = {username: checkIfValueOrInnerText("username"), user_input: checkIfValueOrInnerText("url"), title: checkIfValueOrInnerText("title")}
     adapter.getUrl(body)
-    .then(essay => checkGame(essay, username, url, title))
+    .then(essay => checkGame(essay, checkIfValueOrInnerText("username"), checkIfValueOrInnerText("url"), checkIfValueOrInnerText("title")))
+
+    function checkIfValueOrInnerText(tag){
+      const domElement = document.querySelector(`#${tag}`)
+      return !!domElement.innerText ? domElement.innerText : domElement.value
+    }
   }
     if (e.target.id === "titleButton") {
     e.preventDefault()
@@ -87,6 +84,9 @@ function formClickHandler(e) {
 }
 
 function checkGame(essay, username, url, title){
+  console.log("username", username)
+  console.log("url", url)
+  console.log("title", title)
   if (essay.response){
   document.getElementById("theModal").style.display = "none"
   startGame(essay.response, username, url)}
