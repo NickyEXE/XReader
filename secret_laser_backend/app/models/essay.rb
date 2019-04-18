@@ -24,18 +24,26 @@ class Essay < ApplicationRecord
     end.flatten
   end
 
+  def filtered_scores
+    self.scores.compact
+  end
+
   def high_score
-    if self.scores.length >1
-      high_score = self.scores.max_by do |score|
+    if self.filtered_scores.length >1
+      high_score = self.filtered_scores.max_by do |score|
         score.score
       end
-    elsif self.scores.length == 1
-      high_score = self.scores[0]
+    elsif self.filtered_scores.length == 1
+      high_score = self.filtered_scores[0]
     end
     high_score ? high_score : nil
   end
 
   def high_score_user
-    self.high_score.user
+    if self.high_score
+      self.high_score.user
+    else
+      "None."
+    end
   end
 end

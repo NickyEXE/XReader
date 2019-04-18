@@ -1,13 +1,14 @@
 document.addEventListener("DOMContentLoaded", domLoadFunctions)
 
 function domLoadFunctions(){
+  document.getElementById("modalContent").innerHTML = welcomePageHTML
   const urlButt = document.querySelector('#url-butt')
   const form = document.querySelector('#form')
   const container = document.querySelector('.container')
   const username = document.querySelector("#username")
 
   urlButt.addEventListener('click', processUrl)
-  form.addEventListener('click', fetchUrl)
+  form.addEventListener('click', formClickHandler)
   adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))
   container.addEventListener('click', startPreviousGame)
   username.addEventListener('input', showPreviousGames)
@@ -28,25 +29,27 @@ function processUrl(e) {
                   </div>
                 </div>
                 <button id="titleButton" type="submit" class="btn btn-info">Enter Title</button>
-                <button id="urlBuffForm" type="submit" class="btn btn-primary">Play Secret Laser</button>
+                <button id="playGameButton" type="submit" style="display: none" class="btn btn-primary">Get Your Read On</button>
                 `
   e.target.style.display = "none"
 }
 
-function fetchUrl(e) {
-  if (e.target.id === "urlBuffForm") {
+function formClickHandler(e) {
+  if (e.target.id === "playGameButton") {
     e.preventDefault()
     const username = document.querySelector("#username").value
-    const url = document.querySelector("#url").value
-    const title = document.querySelector("#title").value
+    const url = document.querySelector("#url").innerText
+    const title = document.querySelector("#title").innerText
     const body = {username: username, user_input: url, title: title}
     adapter.getUrl(body)
-    .then(essay => startGame(essay.response, username, url))
+    .then(essay => checkGame(essay, username, url, title))
   }
     if (e.target.id === "titleButton") {
     e.preventDefault()
     const url = document.querySelector("#url")
-    adapter.getTitle(url.value).then(data => {
+    const newUrlDiv = document.getElementById('newurl')
+    document.getElementById("playGameButton").style.display = ""
+    adapter.getTitle(url.innerText).then(data => {
       if (data === null) {
         titleDiv = e.target.parentElement.querySelector(".title")
         titleDiv.style.display = ""
@@ -62,11 +65,26 @@ function fetchUrl(e) {
   }
 }
 
+function checkGame(essay, username, url, title){
+  if (essay.response){
+  document.getElementById("theModal").style.display = "none"
+  startGame(essay.response, username, url)}
+  else {sayInvalidEssay(username, url, title)}
+}
+
+function sayInvalidEssay(username, url, title){
+  console.log("thats an invalid essay!")
+}
+
+
 function addPreviousGameToDom(previousGames) {
   const row = document.querySelector('.row')
-  previousGames.forEach(game => {
+  const filtered_games = previousGames.filter(game=> (game.content && (game.title && game.high_score)))
+  if (filtered_games.length>0){
+  filtered_games.forEach(game => {
     row.innerHTML += previousGameHtml(game)
-  })
+  })}
+  else {row.innerHTML += "<h4>You haven't played any games!"}
 }
 
 function previousGameHtml(game){
