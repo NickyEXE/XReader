@@ -126,7 +126,8 @@ function previousGameHtml(game){
 function startPreviousGame(e) {
   if (e.target.type === "button") {
     const url = e.target.previousElementSibling.innerText
-    const username = document.querySelector('#username').value
+    const username = document.getElementById("canvasPlaceholder").dataset.username
+    document.getElementById("theModal").style.display = "none"
     adapter.getPreviousEssay(e.target.dataset.urlid).then(essay => {
       startGame(essay.content, username, url)
     })
