@@ -6,7 +6,7 @@ const welcomePageHTML = `<div id="welcomePage"></div>
     <div class="flex-item">
       <form id="form">
         <div class="form-group" style=>
-          <label>Username:</label>
+          <label id= "usernamePrompter">Username:</label>
           <input type="text" class="form-control" id="username" placeholder="Enter your Username">
           <div id="newurl"></div>
         </div>
