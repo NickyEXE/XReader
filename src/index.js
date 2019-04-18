@@ -71,11 +71,19 @@ function formClickHandler(e) {
     }
     if (e.target.id=== "previous-game-butt")
       {e.preventDefault();
+        if (document.querySelector("#username").value){
+      const placeholder = document.getElementById("canvasPlaceholder")
+      placeholder.setAttribute('data-username', document.querySelector("#username").value)
       document.getElementById("modalContent").innerHTML = previousGamesModalHTML
       const container = document.querySelector('.container')
       document.querySelector('.row').style.display=""
       container.addEventListener('click', startPreviousGame)
       adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))}
+        else {
+          document.getElementById("usernamePrompter").innerText = "Username -- ENTER ME!!!"
+          document.getElementById("usernamePrompter").style.color = "yellow"
+        }
+      }
 }
 
 function checkGame(essay, username, url, title){
