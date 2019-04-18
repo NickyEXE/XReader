@@ -37,3 +37,11 @@ const welcomePageHTML = `<div id="welcomePage"></div>
   <h5>Reading over.</h5>
   <!-- End of Dynamic Section -->
   <button type="button" class="btn btn-primary center">Reset score and continue reading?</button></center>`
+
+
+  const previousGamesModalHTML = `<h2> Previously Played Urls</h2>
+      <div class="container">
+        <div class="row" style="display:none">
+        </div>
+        </div>
+      </div>`

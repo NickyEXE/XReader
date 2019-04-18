@@ -13,9 +13,9 @@ function domLoadFunctions(){
 
   urlButt.addEventListener('click', processUrl)
   form.addEventListener('click', formClickHandler)
-  adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))
-  container.addEventListener('click', startPreviousGame)
-  username.addEventListener('input', showPreviousGames)
+  // adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))
+  // container.addEventListener('click', startPreviousGame)
+  // username.addEventListener('input', showPreviousGames)
   adapter.getUserHighScores().then(userHighScores => populateUserHighScores(userHighScores))
 
 }
@@ -52,7 +52,6 @@ function formClickHandler(e) {
     if (e.target.id === "titleButton") {
     e.preventDefault()
     const url = document.querySelector("#url")
-    console.log("url", url)
     const newUrlDiv = document.getElementById('newurl')
     document.getElementById("playGameButton").style.display = ""
     adapter.getTitle(url.value).then(data => {
@@ -69,7 +68,14 @@ function formClickHandler(e) {
       }
       e.target.nextElementSibling.style.display = ""
     })
-  }
+    }
+    if (e.target.id=== "previous-game-butt")
+      {e.preventDefault();
+      document.getElementById("modalContent").innerHTML = previousGamesModalHTML
+      const container = document.querySelector('.container')
+      document.querySelector('.row').style.display=""
+      container.addEventListener('click', startPreviousGame)
+      adapter.getPreviousEssays().then(games => addPreviousGameToDom(games))}
 }
 
 function checkGame(essay, username, url, title){
@@ -95,14 +101,14 @@ function addPreviousGameToDom(previousGames) {
 }
 
 function previousGameHtml(game){
-  const shortenedContent = game.content.slice(0,40)
+  const shortenedContent = game.content.slice(0,40)+"..."
   return `<div class="col-sm-4">
-            <div class="card bg-light mb-3">
-              <div class="card-block">
-                  <h4 id="title" class="card-title">${game.title}</h4>
-                  <p class="card-text">Content: ${shortenedContent}</p>
-                  <p data-url="${game.url}" class="card-text">${game.url}</p>
-                  <button data-urlId=${game.id} type="button" class="btn btn-primary">Play ${game.title}</button>
+            <div class="card bg-gradient-dark mb-3">
+              <div class="card-block" style="background-color: black">
+                  <h5 id="title" class="card-title">${game.title}</h4>
+                  <p class="card-text" style="font-size: .75em">Content: ${shortenedContent}</p>
+                  <p data-url="${game.url}" class="card-text" style="font-size: .75em"><a href=${game.url}>${game.url}</a></p>
+                  <button data-urlId=${game.id} type="button" class="btn btn-danger">Play ${game.title}</button>
                   <p class="card-text"><small class="text-muted">High Score: ${game.high_score.score} by ${game.high_score_user.username}</small></p>
               </div>
             </div>
@@ -118,22 +124,23 @@ function startPreviousGame(e) {
     })
   }
 }
-
-function showPreviousGames(e) {
-  const row = document.querySelector('.row')
-  const playButton = document.querySelector('#urlBuffForm')
-  if (e.target.value.length !== 0) {
-    row.style.display = ''
-    if (playButton) {
-      playButton.disabled = false
-    }
-  } else {
-    row.style.display = 'None'
-    if (playButton) {
-      playButton.disabled = true
-    }
-  }
-}
+//
+// function showPreviousGames(e) {
+//   const row = document.querySelector('.row')
+//   const playButton = document.querySelector('#urlBuffForm')
+//   console.log(e.target.value)
+//   if (e.target.value.length !== 0) {
+//     row.style.display = "block"
+//     if (playButton) {
+//       playButton.disabled = false
+//     }
+//   } else {
+//     row.style.display = 'None'
+//     if (playButton) {
+//       playButton.disabled = true
+//     }
+//   }
+// }
 
 function populateUserHighScores(userHighScores) {
   userHighScore = document.querySelector('#user-high-score')
