@@ -175,9 +175,15 @@ function speak(text, callback) {
   }
 
   function renderLaserBar(){
+    ctx.font = "10px Arial Black";
+    ctx.textAlign = "center";
+    ctx.fillStyle = "yellow";
+    ctx.fillText("Laser Charge", 55, canvas.height-140);
     ctx.fillStyle = "blue"
-    ctx.strokeStyle = 'white';
-    ctx.fillRect(20, canvas.height-100+(Laser.lasersRendered.length*10), 10, (12-(Laser.lasersRendered.length))*10);
+    ctx.fillRect(50, canvas.height-130+(Laser.lasersRendered.length*10), 10, (12-(Laser.lasersRendered.length))*10);
+    ctx.lineWidth = "3";
+    ctx.strokeStyle = "white";
+    ctx.rect(50, canvas.height-130, 10, (120));
     ctx.stroke();
   }
 
