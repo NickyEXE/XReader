@@ -74,12 +74,24 @@ function startGame(essay, username, url){
 
   // called to add a new word whenever the wordInterval is hit
   function createWords(){
+    if (wordIterator < essayArray.length - 1){
     const word = essayArray[wordIterator]
     words.push({word: word, x: canvas.width-100, y: Math.floor(Math.random() * (canvas.height-16)) + 1, width: 0, height: 16})
     wordIterator ++
     currentSentence += " " + word
     if (checkPunctuation(word)){speak(currentSentence);
-    currentSentence = ""}
+    currentSentence = ""}}
+    else {
+      clearInterval(gameInterval)
+      clearInterval(wordInterval)
+      const theModal = document.getElementById("theModal")
+      theModal.style.display = "block"
+      adapter.postScore(username, score, url).then(response => console.log(response))
+      const modalContent = document.getElementById("modalContent")
+      modalContent.innerHTML = winGameModal
+      document.getElementById("score").innerText = score
+      theModal.querySelector(".btn").addEventListener('click', continueGame)
+    }
   }
 
 // say a message
