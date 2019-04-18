@@ -25,7 +25,8 @@ function processUrl(e) {
   const newUrlDiv = document.getElementById('newurl')
   newUrlDiv.innerHTML =
                 `<div class="form-group" style=>
-                  <label>Url:</label>
+                  <br>
+                  <label>What's the URL of the article you want to read?</label>
                   <input type="text" class="form-control" id="url" placeholder="Enter your Url">
                   <div class="title" style="display: none">
                     <label >Title:</label>
@@ -54,7 +55,7 @@ function formClickHandler(e) {
     console.log("url", url)
     const newUrlDiv = document.getElementById('newurl')
     document.getElementById("playGameButton").style.display = ""
-    adapter.getTitle(url.innerText).then(data => {
+    adapter.getTitle(url.value).then(data => {
       if (data === null) {
         titleDiv = e.target.parentElement.querySelector(".title")
         titleDiv.style.display = ""
