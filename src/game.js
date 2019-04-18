@@ -159,7 +159,7 @@ function speak(text, callback) {
     words = []
     gameInterval = setInterval(gameIntervalFunctions, 10);
     wordInterval = setInterval(createWords, 300)
-    document.getElementById("gameEndModal").style.display = "none"
+    document.getElementById("theModal").style.display = "none"
   }
 
   // calls all the render functions
@@ -199,6 +199,7 @@ function speak(text, callback) {
       canvasW = canvas.width;
       canvasH = window.innerHeight;
       ctx.font = "18px Arial Black";
+      ctx.fillStyle = "yellow";
       ctx.fillText(`Score: ${score}`, canvas.width/2, 18);
       return canvas
   }
