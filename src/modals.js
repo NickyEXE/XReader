@@ -16,7 +16,7 @@ const welcomePageHTML = `<div id="welcomePage"></div>
     </div>
       <div class="flex-item" style="background-color: black;margin-left: 30px;">
         <center><h6 id="tableHead" style="padding-top: 5px";
-> User High Scores</h4></center>
+<h4> User High Scores</h4></center>
         <table class="table table-striped table-dark">
             <thead>
               <tr>
@@ -34,7 +34,7 @@ const welcomePageHTML = `<div id="welcomePage"></div>
 
   const endGameModalHTML = `<center><h2>You crashed!</h2>
   <iframe src="https://giphy.com/embed/2ik2ANNpA4Xug" width="480" height="268" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/2ik2ANNpA4Xug"></a></p>
-  <h5>Reading over.</h5>
+  <h5 id="scoreBox">Reading over. Your score was</h5>
   <!-- End of Dynamic Section -->
   <button type="button" class="btn btn-primary center">Reset score and continue reading?</button></center>`
 
