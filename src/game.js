@@ -37,7 +37,8 @@ function startGame(essay, username, url){
             document.getElementById("scoreBox").innerText += ` ${score}.`
             words = []
             Wall.all =[]
-            theModal.querySelector(".btn").addEventListener('click', continueGame)
+            document.getElementById("continueButton").addEventListener('click', continueGame)
+            document.getElementById("menuButton").addEventListener('click', renderTheMenu)
           }
         }
 
@@ -146,11 +147,12 @@ function startGame(essay, username, url){
       const modalContent = document.getElementById("modalContent")
       modalContent.innerHTML = winGameModal
       document.getElementById("score").innerText = score
-      theModal.querySelector(".btn").addEventListener('click', renderTheMenu)
+      document.getElementById("menuButton").addEventListener('click', renderTheMenu)
     }
   }
 
 function renderTheMenu(){
+  console.log("rendering menu")
   document.removeEventListener("keydown", keydownHandler);
   document.removeEventListener("keyup", keyupHandler)
   loadTheGame()
@@ -220,7 +222,8 @@ function speak(text, callback) {
       const modalContent = document.getElementById("modalContent")
       modalContent.innerHTML = endGameModalHTML
       document.getElementById("scoreBox").innerText += ` ${score}.`
-      theModal.querySelector(".btn").addEventListener('click', continueGame)
+      document.getElementById("continueButton").addEventListener('click', continueGame)
+      document.getElementById("menuButton").addEventListener('click', renderTheMenu)
     }
     Laser.lasersRendered.forEach(laser => {
       if ((word.x <= laser.x && laser.x<=word.x+word.width)&&(word.y-word.height<=laser.y && laser.y <= word.y))

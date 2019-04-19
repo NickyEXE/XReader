@@ -36,7 +36,8 @@ const welcomePageHTML = `<div id="welcomePage"></div>
   <iframe src="https://giphy.com/embed/2ik2ANNpA4Xug" width="480" height="268" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/2ik2ANNpA4Xug"></a></p>
   <h5 id="scoreBox">Reading over. Your score was</h5>
   <!-- End of Dynamic Section -->
-  <button type="button" class="btn btn-primary center">Reset score and continue reading?</button></center>`
+  <button type="button" id="continueButton" class="btn btn-primary center">Reset score and continue reading?</button>
+  <button type="button" id="menuButton" class="btn btn-primary center">Return to Menu?</button></center>`
 
 
   const previousGamesModalHTML = `<h2> Previously Played Urls</h2>
@@ -51,4 +52,4 @@ const welcomePageHTML = `<div id="welcomePage"></div>
   <h5>Reading over.</h5>
   <p id="score"></p>
   <!-- End of Dynamic Section -->
-  <button type="button" class="btn btn-primary center">Return to Menu?</button></center>`
+  <button type="button" id="menuButton" class="btn btn-primary center">Return to Menu?</button></center>`
