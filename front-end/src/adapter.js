@@ -1,4 +1,4 @@
-baseURL = `http://localhost:3000`
+baseURL = `https://lit-wildwood-84809.herokuapp.com`
 headers = {
   "Content-Type": "application/json"
 }
@@ -17,7 +17,7 @@ const adapter = {
   },
   getPreviousEssay: (id) => {
     return fetch(`${baseURL}/essays/${id}`).then(res => res.json())
-  }, 
+  },
   getUrl: (body) => {
     return fetch(`${baseURL}/new`,  {
       method: 'POST',
