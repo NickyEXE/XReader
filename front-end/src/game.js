@@ -146,9 +146,17 @@ function startGame(essay, username, url){
       const modalContent = document.getElementById("modalContent")
       modalContent.innerHTML = winGameModal
       document.getElementById("score").innerText = score
-      theModal.querySelector(".btn").addEventListener('click', continueGame)
+      theModal.querySelector(".btn").addEventListener('click', renderTheMenu)
     }
   }
+
+function renderTheMenu(){
+  document.removeEventListener("keydown", keydownHandler);
+  document.removeEventListener("keyup", keyupHandler)
+  loadTheGame()
+  document.getElementById("username").value = username
+}
+
 
 // say a message
 function speak(text, callback) {
