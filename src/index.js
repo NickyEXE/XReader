@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", domLoadFunctions)
 
-function domLoadFunctions(){
+function loadTheGame(){
   const modal = document.getElementById("theModal")
   document.body.style.color = "white"
   document.getElementById("theModal").children[0].style.backgroundColor = "black"
@@ -12,6 +12,21 @@ function domLoadFunctions(){
   urlButt.addEventListener('click', processUrl)
   form.addEventListener('click', formClickHandler)
   adapter.getUserHighScores().then(userHighScores => populateUserHighScores(userHighScores))
+}
+
+function domLoadFunctions(){
+  loadTheGame()
+  // const modal = document.getElementById("theModal")
+  // document.body.style.color = "white"
+  // document.getElementById("theModal").children[0].style.backgroundColor = "black"
+  // document.getElementById("modalContent").innerHTML = welcomePageHTML
+  // const urlButt = document.querySelector('#url-butt')
+  // const form = document.querySelector('#form')
+  // const container = document.querySelector('.container')
+  // const username = document.querySelector("#username")
+  // urlButt.addEventListener('click', processUrl)
+  // form.addEventListener('click', formClickHandler)
+  // adapter.getUserHighScores().then(userHighScores => populateUserHighScores(userHighScores))
 
 }
 
@@ -39,15 +54,15 @@ function formClickHandler(e) {
     e.preventDefault()
     if (!username.value){document.getElementById("usernamePrompter").style.color = "yellow";
       document.getElementById("usernamePrompter").innerText = "Please enter a username!"
-    } 
+    }
     else if (!title.value){document.getElementById("titleInputTag").style.color = "yellow";
       document.getElementById("titleInputTag").innerText = "Please enter a title!"
-    } 
+    }
     else {
       const body = {username: checkIfValueOrInnerText("username"), user_input: checkIfValueOrInnerText("url"), title: checkIfValueOrInnerText("title")}
       adapter.getUrl(body)
       .then(essay => checkGame(essay, checkIfValueOrInnerText("username"), checkIfValueOrInnerText("url"), checkIfValueOrInnerText("title")))}
-    
+
     function checkIfValueOrInnerText(tag){
       const domElement = document.querySelector(`#${tag}`)
       return !!domElement.innerText ? domElement.innerText : domElement.value
