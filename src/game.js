@@ -1,6 +1,58 @@
 const canvasPlaceholder = document.getElementById("canvasPlaceholder")
 function startGame(essay, username, url){
   // start game constants
+
+    class Wall{
+      constructor(){
+        this.gap = 240
+        this.speed = 3
+        this.x = canvas.width
+        this.y = Math.floor(Math.random() * (canvas.height - this.gap)) -1
+        this.bottom = this.y+this.gap
+        this.addToAll()
+      }
+      addToAll(){
+        this.constructor.all.push(this)
+      }
+      renderWall(){
+        ctx.fillStyle = 'pink';
+        ctx.fillRect(this.x, 0, 10, this.y)
+        ctx.fillRect(this.x, this.y + this.gap, 10, canvas.height)
+      }
+      moveWall(){
+        this.x = this.x - this.speed
+      }
+
+      checkCollision(){
+        if (this.x>0 && this.x<20){
+          if (avatar.y < this.y || avatar.y + avatar.height > this.bottom){
+            document.getElementById("shipsplode").play();
+            clearInterval(gameInterval)
+            clearInterval(wordInterval)
+            const theModal = document.getElementById("theModal")
+            theModal.style.display = "block"
+            adapter.postScore(username, score, url).then(response => console.log(response))
+            const modalContent = document.getElementById("modalContent")
+            modalContent.innerHTML = endGameModalHTML
+            document.getElementById("scoreBox").innerText += ` ${score}.`
+            words = []
+            Wall.all =[]
+            theModal.querySelector(".btn").addEventListener('click', continueGame)
+          }
+        }
+
+      }
+      static moveWalls(){
+        Wall.all.forEach (wall => wall.moveWall())
+        Wall.all.forEach (wall => wall.checkCollision())
+      }
+      static renderWalls(){
+        Wall.all.forEach(wall => wall.renderWall())
+      }
+    }
+    Wall.all = []
+
+
   const canvasPlaceholder = document.getElementById("canvasPlaceholder")
   canvasPlaceholder.innerHTML = `<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000; background: url('./assets/background.png')">
               <div id="dodger" style="bottom: 100px; left: 100px;"></div>
@@ -82,11 +134,13 @@ function startGame(essay, username, url){
     currentSentence += " " + word
 
     if (checkPunctuation(word)){speak(currentSentence);
+      new Wall();
     currentSentence = ""}}
     else {
       clearInterval(gameInterval)
       clearInterval(wordInterval)
       const theModal = document.getElementById("theModal")
+      Wall.all = []
       theModal.style.display = "block"
       adapter.postScore(username, score, url).then(response => console.log(response))
       const modalContent = document.getElementById("modalContent")
@@ -121,6 +175,7 @@ function speak(text, callback) {
   function gameIntervalFunctions(){
     wordsLogic()
     Laser.changeLasers()
+    Wall.moveWalls()
     callPressedFunctions()
     renderer()
   }
@@ -137,6 +192,8 @@ function speak(text, callback) {
   function wordLogic(word){
     word.x = word.x - 5
     word.y = word.y + word.yFlux/2
+    if (word.y< 0){word.y = 0; word.yFlux = Math.round(Math.random())+1}
+    if (word.y> canvas.height-16){word.y = canvas.height-16; word.yFlux = Math.round(Math.random())-2}
     // first condition: has the right side of the word hit zero? If so, you shouldn't get killed by it
     // second condition: is any part of the word between 0 and the avatar width
     const isRightSideOfWordGreaterThanZero = word.x + word.width > 0
@@ -151,9 +208,10 @@ function speak(text, callback) {
       clearInterval(wordInterval)
       const theModal = document.getElementById("theModal")
       theModal.style.display = "block"
-      adapter.postScore(username, score, url).then(response => console.log(response))
+      adapter.postScore(username, score, url).then(response => "")
       const modalContent = document.getElementById("modalContent")
       modalContent.innerHTML = endGameModalHTML
+      document.getElementById("scoreBox").innerText += ` ${score}.`
       theModal.querySelector(".btn").addEventListener('click', continueGame)
     }
     Laser.lasersRendered.forEach(laser => {
@@ -187,6 +245,7 @@ function speak(text, callback) {
     renderLaserBar()
     Laser.avatar = avatar
     Laser.renderLasers()
+    Wall.renderWalls()
   }
 
   function renderLaserBar(){
@@ -228,6 +287,8 @@ function speak(text, callback) {
   function printTheAvatar(avatar){
     ctx.drawImage(document.getElementById("ship"),avatar.x, avatar.y, avatar.width, avatar.height);
   }
+
+
 
 
 }
