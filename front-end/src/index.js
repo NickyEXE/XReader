@@ -37,10 +37,17 @@ function processUrl(e) {
 function formClickHandler(e) {
   if (e.target.id === "playGameButton") {
     e.preventDefault()
-    const body = {username: checkIfValueOrInnerText("username"), user_input: checkIfValueOrInnerText("url"), title: checkIfValueOrInnerText("title")}
-    adapter.getUrl(body)
-    .then(essay => checkGame(essay, checkIfValueOrInnerText("username"), checkIfValueOrInnerText("url"), checkIfValueOrInnerText("title")))
-
+    if (!username.value){document.getElementById("usernamePrompter").style.color = "yellow";
+      document.getElementById("usernamePrompter").innerText = "Please enter a username!"
+    } 
+    else if (!title.value){document.getElementById("titleInputTag").style.color = "yellow";
+      document.getElementById("titleInputTag").innerText = "Please enter a title!"
+    } 
+    else {
+      const body = {username: checkIfValueOrInnerText("username"), user_input: checkIfValueOrInnerText("url"), title: checkIfValueOrInnerText("title")}
+      adapter.getUrl(body)
+      .then(essay => checkGame(essay, checkIfValueOrInnerText("username"), checkIfValueOrInnerText("url"), checkIfValueOrInnerText("title")))}
+    
     function checkIfValueOrInnerText(tag){
       const domElement = document.querySelector(`#${tag}`)
       return !!domElement.innerText ? domElement.innerText : domElement.value
